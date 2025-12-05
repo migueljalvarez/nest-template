@@ -1,7 +1,8 @@
-import InitialConfigModule from '@/config/initial.config.module';
+import config from '@/core/config/index';
 import { Module } from '@nestjs/common';
-
+import { ApiModule } from './api/api.module';
+const { InitialConfigModule } = config;
 @Module({
-  imports: [InitialConfigModule],
+  imports: [InitialConfigModule, ApiModule],
 })
 export class AppModule {}

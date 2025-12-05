@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class SwaggerConfigService {
+export default class SwaggerConfigService {
   constructor(private configService: ConfigService) {}
 
   get title(): string {

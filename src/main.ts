@@ -1,31 +1,34 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
 import { ConsoleLogger, ValidationPipe, Logger } from '@nestjs/common';
-import { AppConfigService } from './config/app/app.config.service';
 import { DEFAULT_PORT } from './common/constants';
-import { SwaggerConfigService } from './config/openapi/swagger/swagger.config.service';
-import { SwaggerConfigModule } from './config/openapi/swagger/swagger.config.module';
+import config from './core/config';
+import interceptors from './core/interceptors/index';
+import filters from './core/filters';
+const { AppConfigService } = config.app;
+const { SwaggerConfigService, SwaggerConfigModule } = config.swagger;
+const { ResponseInterceptor } = interceptors;
+const { GlobalHttpExceptionFilter } = filters;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new ConsoleLogger({
-      prefix: 'NEST TEMPLATE', // Change for current name application
       context: 'Main',
       timestamp: true,
       logLevels: ['log', 'error', 'warn', 'debug', 'verbose'],
     }),
   });
   app.enableCors();
-  app.setGlobalPrefix('api');
-  
+  app.setGlobalPrefix('api/v1');
 
-  const appConfig: AppConfigService = app.get(AppConfigService);
-  const swaggerConfig: SwaggerConfigService = app.get(SwaggerConfigService);
+  const appConfig = app.get(AppConfigService);
+  const swaggerConfig = app.get(SwaggerConfigService);
   if (['local', 'development'].includes(appConfig.env)) {
-    const swagger: SwaggerConfigModule = new SwaggerConfigModule(swaggerConfig);
+    const swagger = new SwaggerConfigModule(swaggerConfig);
     swagger.setup(app);
   }
-
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new GlobalHttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

@@ -7,10 +7,10 @@ export class LoggerProviderService extends Logger {
     this.logger = new ConsoleLogger();
   }
 
-  log(context: string, message: string, method?: string | null, data?: object) {
+  log(context: string, message: string, method?: string | null, path?: string, data?: object) {
     const msg: string = data
-      ? `${method ? 'method: ' + method : ''} : ${message} : ${JSON.stringify(data)}`
-      : `${method ? 'method: ' + method : ''} : ${message}`;
+      ? `${method ? method + ' ' + path : ''} : ${message} : ${JSON.stringify(data)}`
+      : `${method ? method + ' ' + path : ''} : ${message}`;
     this.logger.log(msg, context);
   }
 

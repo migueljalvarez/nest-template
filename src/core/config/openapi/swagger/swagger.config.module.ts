@@ -4,11 +4,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import swaggerRegister from './swagger.register';
-import { SwaggerConfigService } from './swagger.config.service';
-
+import SwaggerConfigService from './swagger.config.service';
+import { getEnvironmentPath } from '@/common/helpers/environment.helpers';
+import { ENVIRONMENT_PATH } from '@/common/constants';
+const envFilePath: string = getEnvironmentPath(ENVIRONMENT_PATH);
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath,
       load: [swaggerRegister],
       validationSchema: Joi.object({
         SWAGGER_URL: Joi.string().required(),
@@ -18,7 +21,7 @@ import { SwaggerConfigService } from './swagger.config.service';
   providers: [ConfigService, SwaggerConfigService],
   exports: [ConfigService, SwaggerConfigService],
 })
-export class SwaggerConfigModule {
+export default class SwaggerConfigModule {
   constructor(private readonly configService: SwaggerConfigService) {}
 
   setup(app: INestApplication): void {
