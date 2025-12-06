@@ -1,2 +1,2 @@
-import { ResponseInterceptor } from './response.interceptor';
-export default { ResponseInterceptor };
+export * from './logging.interceptor';
+export * from './response.interceptor';

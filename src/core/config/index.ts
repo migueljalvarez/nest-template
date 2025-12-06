@@ -1,11 +1,5 @@
-import SwaggerConfigModule from './openapi/swagger/swagger.config.module';
-import SwaggerConfigService from './openapi/swagger/swagger.config.service';
-import AppConfigModule from './app/app.config.module';
-import InitialConfigModule from './initial.config.module';
-import AppConfigService from './app/app.config.service';
-
-export default {
-  InitialConfigModule,
-  app: { AppConfigModule, AppConfigService },
-  swagger: { SwaggerConfigModule, SwaggerConfigService },
-};
+export * from './swagger/config.module';
+export * from './swagger/config.service';
+export * from './app/config.module';
+export * from './config.module';
+export * from './app/config.service';

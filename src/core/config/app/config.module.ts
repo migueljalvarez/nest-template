@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getEnvironmentPath } from '../../../common/helpers/environment.helpers';
 import { DEFAULT_PORT, ENVIRONMENT_PATH } from '../../../common/constants';
-import appRegister from './app.register';
+import appRegister from './register';
 import * as Joi from 'joi';
-import AppConfigService from './app.config.service';
+import { AppConfigService } from './config.service';
 
 const envFilePath: string = getEnvironmentPath(ENVIRONMENT_PATH);
 @Module({
@@ -26,4 +26,4 @@ const envFilePath: string = getEnvironmentPath(ENVIRONMENT_PATH);
   providers: [ConfigService, AppConfigService],
   exports: [ConfigService, AppConfigService],
 })
-export default class AppConfigModule {}
+export class AppConfigModule {}

@@ -1,5 +1,5 @@
 import { LoggerProviderService } from '@/core/providers/logger';
-import { Controller, Get, HttpCode, Req } from '@nestjs/common';
+import { Controller, Get, HttpCode } from '@nestjs/common';
 
 import { HealthCheckService, HttpHealthIndicator, HealthCheck } from '@nestjs/terminus';
 
@@ -14,8 +14,8 @@ export class HealthController {
   @Get('')
   @HealthCheck()
   @HttpCode(200)
-  checkHealth(@Req() req: Request) {
-    this.logger.log(this.context, 'Health check endpoint called', req.method, req.url);
+  checkHealth() {
+    this.logger.info(this.context, 'Health check endpoint called');
     // TODO: Add more health indicators as needed
     return this.health.check([() => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com')]);
   }

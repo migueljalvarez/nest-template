@@ -1,8 +1,9 @@
-import config from '@/core/config/index';
+import { InitialConfigModule } from '@/core/config/index';
 import { Module } from '@nestjs/common';
 import { ApiModule } from './api/api.module';
-const { InitialConfigModule } = config;
+import { LoggerProviderModule } from '@/core/providers/logger';
+
 @Module({
-  imports: [InitialConfigModule, ApiModule],
+  imports: [InitialConfigModule, ApiModule, LoggerProviderModule],
 })
 export class AppModule {}
